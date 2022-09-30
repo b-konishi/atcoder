@@ -15,6 +15,10 @@
 - 愚直計算量: $\mathcal{O}(2^N)$
 - DP計算量: $\mathcal{O}(3N)=\mathcal{O}(N)$
 
+### D-Knapsack1
+- 2次元DPを使用(縦:商品インデックス $i < N$, 横:重さ $j < W$, 価値 $V(i,j)$ )
+- 条件: $1 \leq N \leq 100$, $1 \leq v_i \leq 10^9$ であるため、 $1 \leq V(i,j) \leq 10^{11}$ となるため、 $-2 \times 10^9 \sim +2 \times 10^9$ 程度しか扱えない`int`(32bit)ではなく、`int64_t`を使用する
+
 
 ## Tips
 
