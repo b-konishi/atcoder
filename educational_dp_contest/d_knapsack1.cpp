@@ -10,15 +10,11 @@ int64_t knapsack(vector<vector<int64_t>> &dp, vector<pair<int,int>> &wv, int N, 
   for (int i = 1; i < N; i++) {
     for (int j = 0; j <= W; j++) {
 
-      if (j < wv.at(i).first) {
-        dp.at(i).at(j) = dp.at(i-1).at(j);
-      }
-      else {
-        dp.at(i).at(j) = dp.at(i-1).at(j);
-
-        if (wv.at(i).second + dp.at(i-1).at(j-wv.at(i).first) > dp.at(i-1).at(j)) {
+      dp.at(i).at(j) = dp.at(i-1).at(j);
+      if (j >= wv.at(i).first &&
+          wv.at(i).second + dp.at(i-1).at(j-wv.at(i).first) > dp.at(i-1).at(j)
+      ) {
           dp.at(i).at(j) = wv.at(i).second + dp.at(i-1).at(j-wv.at(i).first);
-        }
       }
     }
   }
