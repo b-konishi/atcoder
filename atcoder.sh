@@ -85,6 +85,7 @@ elif [[ "$option" = "-m" ]]; then # -m: ディレクトリとファイルの生�
   fi
 
 elif [[ "$option" = "-g" ]]; then # -g: git管理
+  git pull origin master
   cp ${HOME}/command/atcoder ${ATCODER_DIR}/atcoder.sh
   chmod 664 ${ATCODER_DIR}/atcoder.sh
   git add .
