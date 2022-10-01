@@ -52,6 +52,14 @@
 `template.cpp`を参照
 
 ### コンテスト環境構築用Linuxコマンド
+コマンド定義は`atcoder.sh`ファイル参照。
+
+```shell
+cp atcoder.sh ~/command/atcoder
+chmod 777 ~/command/atcoder
+echo "export PATH=$HOME/command:$PATH" >> ~/.zshrc
+echo "alias atcoder='source atcoder'" >> ~/.zshrc # shellで実行したcdをターミナルに反映させる
+```
 
 ```
 NAME
@@ -72,14 +80,12 @@ DESCRIPTION
   -h  display this help and exit
 ```
 
-コマンド定義は`atcoder.sh`ファイル参照
-
 
 ### コード提出用Vimコマンド
 デバッグ用のコードやコメント、空行を削除するために、`.vimrc`に記載する
 
 ```
-nnoremap <C-y><C-y> :g/\v\/\/<BAR>^$/d<ENTER>ggVGyu:nohlsearch<ENTER>
+nnoremap <C-y><C-y> :g/\v\/\/<BAR>^$/d<ENTER>ggVGyu:nohlsearch<ENTER><C-o><C-o><C-o>
 ```
 
 

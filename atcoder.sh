@@ -1,6 +1,6 @@
 #!/bin/zsh
 
-readonly ATCODER_DIR="${HOME}/workspace_atcoder"
+ATCODER_DIR="${HOME}/workspace_atcoder"
 option=""
 arg=""
 
@@ -35,8 +35,8 @@ do
 done
 
 
-if [[ "$option" = "-t" ]]; then # -t: tmux環境構築
-  if [[ -n "$arg" ]]; then # argが空ではないとき
+if [ $option = "-t" ]; then # -t: tmux環境構築
+  if [ -n $arg ]; then # argが空ではないとき
     cd ${ATCODER_DIR}/${arg}
   else
     cd ${ATCODER_DIR}
@@ -48,19 +48,22 @@ if [[ "$option" = "-t" ]]; then # -t: tmux環境構築
   tmux select-pane -t 1
   tmux select-pane -t 0
 
-elif [[ "$option" = "-e" ]]; then # -e: コードの監視・自動実行
-  if [[ -n "$arg" ]]; then # argが空ではないとき
+elif [ $option = "-e" ]; then # -e: コードの監視・自動実行
+  if [ -n $arg ]; then # argが空ではないとき
 
     INTERVAL=1 # 監視間隔, 秒で指定
-    last=`ls --full-time ${arg} | awk '{print $6"-"$7}'`
+    cpp_last=`ls --full-time ${arg} | awk '{print $6"-"$7}'`
+    input_last=`ls --full-time ${ATCODER_DIR}/input.txt | awk '{print $6"-"$7}'`
     while true; do
       sleep $INTERVAL
-      current=`ls --full-time ${arg} | awk '{print $6"-"$7}'`
-      if [ $last != $current ]; then
+      cpp_current=`ls --full-time ${arg} | awk '{print $6"-"$7}'`
+      input_current=`ls --full-time ${ATCODER_DIR}/input.txt | awk '{print $6"-"$7}'`
+      if [ $cpp_last != $cpp_current -o $input_last != $input_current ]; then
         echo ""
-        echo "updated: $current"
+        echo "updated: $cpp_current"
         echo "[Executing ...]"
-        last=$current
+        cpp_last=$cpp_current
+        input_last=$input_current
         g++ ${arg} && a.out
         echo "[Done]"
       fi
@@ -71,12 +74,13 @@ elif [[ "$option" = "-e" ]]; then # -e: コードの監視・自動実行
     return
   fi
 
-elif [[ "$option" = "-m" ]]; then # -m: ディレクトリとファイルの生成
-  if [[ -n "$arg" ]]; then # argが空ではないとき
+elif [ $option = "-m" ]; then # -m: ディレクトリとファイルの生成
+  if [ -n $arg ]; then # argが空ではないとき
     mkdir ${arg}
+    cd ${arg}
     for i in {a..g}.cpp
     do
-      cp ${ATCODER_DIR}/template.cpp ${arg}/$i
+      cp ${ATCODER_DIR}/template.cpp $i
     done
     echo "Created a directory and some cpp-files"
   else
@@ -84,7 +88,7 @@ elif [[ "$option" = "-m" ]]; then # -m: ディレクトリとファイルの生�
     return
   fi
 
-elif [[ "$option" = "-g" ]]; then # -g: git管理
+elif [ $option = "-g" ]; then # -g: git管理
   git pull origin master
   cp ${HOME}/command/atcoder ${ATCODER_DIR}/atcoder.sh
   chmod 664 ${ATCODER_DIR}/atcoder.sh
@@ -96,7 +100,7 @@ elif [[ "$option" = "-g" ]]; then # -g: git管理
   fi
   git push origin master
 
-elif [[ "$option" = "-h" ]]; then # -h: ヘルプ
+elif [ $option = "-h" ]; then # -h: ヘルプ
   echo ""
   echo "[option]"
   echo "-t: arrange tmux-panes"
