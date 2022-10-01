@@ -72,7 +72,7 @@ DESCRIPTION
   -h  display this help and exit
 ```
 
-コマンド定義は`atcoder`ファイル参照
+コマンド定義は`atcoder.sh`ファイル参照
 
 
 ### コード提出用Vimコマンド
