@@ -48,21 +48,42 @@
 
 ## Tips
 
-### 基本テンプレート
+### 基本C++テンプレート
+`template.cpp`を参照
 
-```cpp
-#include <bits/stdc++.h>
-using namespace std;
-template<class T> inline bool chmin(T& a, T b) { if (a > b) { a = b; return 1; } return 0; }
-template<class T> inline bool chmax(T& a, T b) { if (a < b) { a = b; return 1; } return 0; }
+### コンテスト環境構築用Linuxコマンド
+
+```
+NAME
+  atcoder - create an environment and execute automatically for AtCoder contests
+
+SYNOPSIS
+  atcoder -t [DIRECTORY]
+  atcoder -e FILE
+  atcoder -m DIRECTORY
+  atcoder -g [STRING]
+  atcoder -h
+
+DESCRIPTION
+  -t  create an environment by using tmux
+  -e  execute a cpp-file automatically in case that the file is updated by constant monitoring    
+  -m  make a directory and some cpp-files, that are required for the contest
+  -g  execute git commands for commit and push
+  -h  display this help and exit
 ```
 
-### デバッグ用テンプレート
-cinでファイルから読み込みことが可能。
+コマンド定義は`atcoder`ファイル参照
 
-```cpp
-ifstream in("input.txt");
-cin.rdbuf(in.rdbuf());
+
+### コード提出用Vimコマンド
+デバッグ用のコードやコメント、空行を削除するために、`.vimrc`に記載する
+
 ```
+nnoremap <C-y><C-y> :g/\v\/\/<BAR>^$/d<ENTER>ggVGyu:nohlsearch<ENTER>
+```
+
+
+
+
 
 

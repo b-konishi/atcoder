@@ -18,5 +18,5 @@ int main() {
     cin >> a.at(i);
   }
 
-  cout << N << endl; //
+  cout << N << endl;
 }
