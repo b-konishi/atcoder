@@ -16,13 +16,37 @@ int main() {
   // DEBUG
   ifstream in("/home/konishi/workspace_atcoder/input.txt"); cin.rdbuf(in.rdbuf()); //
 
-  int N;
-  cin >> N;
+  int N, M;
+  cin >> N >> M;
 
-  vector<int> a(N);
-  for (int i = 0; i < N; i++) {
-    cin >> a.at(i);
+  bool finish = false;
+
+  // a[i]=0(X%M=0)のときに、その時の桁の値を記録する
+  vector<int> checks(N, 0);
+
+  // 桁の数値が大きい方からループを回し記録する
+  // 既に記録してある場合はなにもしない(dが大きい方が優先: ex. 55555 > 33333)
+  // 計算量はO(10N)=O(N)<10^5
+  int a;
+  for (int d = 9; d >= 1; d--) {
+    a = 0;
+    for (int i = 1; i <= N; i++) {
+      a = (10*a + d) % M;
+      if (a == 0 && checks.at(i-1) == 0) {
+        checks.at(i-1) = d;
+      }
+    }
   }
-
-  cout << N << endl;
+  for (int i = N-1; i >= 0; i--) {
+    if (checks.at(i) == 0)  continue;
+      
+    for (int j = 0; j < i+1; j++) {
+      cout << checks.at(i);
+    }
+    finish = true;
+    break;
+  }
+  
+  if (!finish) cout << -1;
+  cout << endl;
 }

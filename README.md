@@ -46,6 +46,17 @@
 - 木構造の表現方法
 
 
+
+## ARC149
+
+### A - Repdigit Number
+- モジュロ演算
+- $1 \leq N \leq 10^5, X < 10^N \leq 10^{10^5} = 10^{100000}$ と非常に大きく全探索は当然不可能
+- 一見、桁の大きい方から見ていき打ち切る方法が思いつくが、計算量削減のため、漸化式によって小さい方から進める必要がある。
+- 漸化式は剰余情報のみ引き継げばよい
+- 計算量 $\mathcal{O}(N) \leq 10^5$
+
+
 ## Tips
 
 ### 基本C++テンプレート
@@ -85,7 +96,7 @@ DESCRIPTION
 デバッグ用のコードやコメント、空行を削除するために、`.vimrc`に記載する
 
 ```
-nnoremap <C-y><C-y> :g/\v\/\/<BAR>^$/d<ENTER>ggVGyu:nohlsearch<ENTER><C-o><C-o><C-o>
+nnoremap <C-y><C-y> :g/\v\/\/<BAR>^\s*$/d<ENTER>ggVGyu:nohlsearch<ENTER><C-o><C-o><C-o>
 ```
 
 
