@@ -1,6 +1,9 @@
 # atcoder
 
 ## Educational DP Contest
+- https://atcoder.jp/contests/dp
+- https://qiita.com/drken/items/dc53c683d6de8aeacf5a
+- https://qiita.com/drken/items/03c7db44ccd27820ea0d
 
 ### A-Frog1
 - 1次元DP
@@ -50,12 +53,23 @@
 ## ARC149
 
 ### A - Repdigit Number
-- モジュロ演算
+- https://atcoder.jp/contests/arc149/editorial/4869
 - $1 \leq N \leq 10^5, X < 10^N \leq 10^{10^5} = 10^{100000}$ と非常に大きく全探索は当然不可能
 - 一見、桁の大きい方から見ていき打ち切る方法が思いつくが、計算量削減のため、漸化式によって小さい方から進める必要がある。
 - 漸化式は剰余情報のみ引き継げばよい
 - 計算量 $\mathcal{O}(N) \leq 10^5$
 
+モジュロ演算について
+- https://qiita.com/drken/items/3b4fdf0a78e7a138cd9a#4-%E7%B4%AF%E4%B9%97-an
+- $a(1,d) = d$, $a(2,d) = 10a(1,d)+d$
+- $a(n,d) = 10a(n-1,d)+d$
+- $a(N,d) < 10^n = 10^{10^5}$ となるため、剰余を保存する形式にしないとオーバーフローが発生する。
+- 知りたい漸化式は $a(n,d)\bmod M \equiv (10 a_{n-1} + d)\bmod M$ となる。
+- これは次の性質を利用している:
+  - $a\bmod M = a - kM \equiv a\$ (何周回っても剰余は変わらない)
+  - $a\bmod M\equiv b \Leftrightarrow a\equiv b$
+  - $a(b\bmod M) \equiv (ab)\bmod M$
+  - $a\bmod M + b \equiv (a+b)\bmod M$
 
 ## Tips
 
