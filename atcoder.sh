@@ -1,6 +1,7 @@
 #!/bin/zsh
 
-ATCODER_DIR="${HOME}/workspace_atcoder"
+WORKSPACE_NAME="workspace_atcoder"
+ATCODER_DIR="${HOME}/${WORKSPACE_NAME}"
 option=""
 arg=""
 
@@ -35,10 +36,11 @@ do
 done
 
 
-if [ $option = "-t" ]; then # -t: tmux環境構築
-  if [ -n $arg ]; then # argが空ではないとき
+if [ "$option" = "-t" ]; then # -t: tmux環境構築
+
+  if [ -n "$arg" ]; then # argが空ではないとき
     cd ${ATCODER_DIR}/${arg}
-  else
+  elif [ `pwd | sed -e "s|${WORKSPACE_NAME}||" | wc -m` -eq `pwd | wc -m` ]; then # 元々workspace内にいないとき
     cd ${ATCODER_DIR}
   fi
   tmux split-window -v
@@ -48,8 +50,8 @@ if [ $option = "-t" ]; then # -t: tmux環境構築
   tmux select-pane -t 1
   tmux select-pane -t 0
 
-elif [ $option = "-e" ]; then # -e: コードの監視・自動実行
-  if [ -n $arg ]; then # argが空ではないとき
+elif [ "$option" = "-e" ]; then # -e: コードの監視・自動実行
+  if [ -n "$arg" ]; then # argが空ではないとき
 
     INTERVAL=1 # 監視間隔, 秒で指定
     cpp_last=`ls --full-time ${arg} | awk '{print $6"-"$7}'`
@@ -58,7 +60,7 @@ elif [ $option = "-e" ]; then # -e: コードの監視・自動実行
       sleep $INTERVAL
       cpp_current=`ls --full-time ${arg} | awk '{print $6"-"$7}'`
       input_current=`ls --full-time ${ATCODER_DIR}/input.txt | awk '{print $6"-"$7}'`
-      if [ $cpp_last != $cpp_current -o $input_last != $input_current ]; then
+      if [ "$cpp_last" != "$cpp_current" -o "$input_last" != "$input_current" ]; then
         echo ""
         echo "updated: $cpp_current"
         echo "[Executing ...]"
@@ -74,8 +76,8 @@ elif [ $option = "-e" ]; then # -e: コードの監視・自動実行
     return
   fi
 
-elif [ $option = "-m" ]; then # -m: ディレクトリとファイルの生成
-  if [ -n $arg ]; then # argが空ではないとき
+elif [ "$option" = "-m" ]; then # -m: ディレクトリとファイルの生成
+  if [ -n "$arg" ]; then # argが空ではないとき
     mkdir ${arg}
     cd ${arg}
     for i in {a..g}.cpp
@@ -88,19 +90,20 @@ elif [ $option = "-m" ]; then # -m: ディレクトリとファイルの生成
     return
   fi
 
-elif [ $option = "-g" ]; then # -g: git管理
+elif [ "$option" = "-g" ]; then # -g: git管理
   git pull origin master
+  find ${ATCODER_DIR}/ -name "a.out" | xargs rm
   cp ${HOME}/command/atcoder ${ATCODER_DIR}/atcoder.sh
   chmod 664 ${ATCODER_DIR}/atcoder.sh
   git add .
-  if [[ -n "$arg" ]]; then # argが空ではないとき
+  if [ -n "$arg" ]; then # argが空ではないとき
     git commit -m "add ${arg}"
   else
     git commit -m "update"
   fi
   git push origin master
 
-elif [ $option = "-h" ]; then # -h: ヘルプ
+elif [ "$option" = "-h" ]; then # -h: ヘルプ
   echo ""
   echo "[option]"
   echo "-t: arrange tmux-panes"
