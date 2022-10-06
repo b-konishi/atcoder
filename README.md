@@ -48,6 +48,16 @@
 ### C - Simple path
 - 木構造の表現方法
 
+## ABC264
+
+### C - Matrix Reducing
+- Bit全探索
+- N個のアイテムの全組み合わせを探索するために、 $2^N$ `(1<<N)`回の繰り返しを行う。
+
+```cpp
+for (int bit = 0; bit < (1<<N); ++bit) { something; }
+```
+- 計算量 $\mathcal{O}(2^{(H_1+W_1)} \quad_{H_1} C_{H_1-H_2} \quad_{W_1} C_{W_1-W_2})$
 
 
 ## ARC149
