@@ -6,23 +6,31 @@ option=""
 arg=""
 
 # オプションと引数を分けて取り込む(オプションと引数が1つずつの場合のみ想定)
+# 引数を必要としないオプションはここで処理&終了
 while (( $# > 0 ))
 do
   case $1 in
-    -t)
-      option=$1
+    -t | --tmux)
+      option="tmux"
       ;;
-    -e)
-      option=$1
+    -e | --execute)
+      option="execute"
       ;;
-    -m)
-      option=$1
+    -m | --mkdir)
+      option="mkdir"
       ;;
-    -g)
-      option=$1
+    -g | --git)
+      option="git"
       ;;
-    -h)
-      option=$1
+    -h | --help)
+      echo ""
+      echo "[option]"
+      echo "-t: arrange tmux-panes"
+      echo "-e: monitor a file given as argument and execute it"
+      echo "-m: create a directory and some cpp-files"
+      echo "-g: execute git commands for commit and push"
+      echo ""
+      return
       ;;
     -*)
       echo "Error: invalid option"
@@ -36,7 +44,7 @@ do
 done
 
 
-if [ "$option" = "-t" ]; then # -t: tmux環境構築
+if [ "$option" = "tmux" ]; then # -t: tmux環境構築
 
   if [ -n "$arg" ]; then # argが空ではないとき
     cd ${ATCODER_DIR}/${arg}
@@ -50,7 +58,7 @@ if [ "$option" = "-t" ]; then # -t: tmux環境構築
   tmux select-pane -t 1
   tmux select-pane -t 0
 
-elif [ "$option" = "-e" ]; then # -e: コードの監視・自動実行
+elif [ "$option" = "execute" ]; then # -e: コードの監視・自動実行
   if [ -n "$arg" ]; then # argが空ではないとき
 
     INTERVAL=1 # 監視間隔, 秒で指定
@@ -76,9 +84,9 @@ elif [ "$option" = "-e" ]; then # -e: コードの監視・自動実行
     return
   fi
 
-elif [ "$option" = "-m" ]; then # -m: ディレクトリとファイルの生成
+elif [ "$option" = "mkdir" ]; then # -m: ディレクトリとファイルの生成
   if [ -n "$arg" ]; then # argが空ではないとき
-    mkdir ${arg}
+    mkdir ${arg} || return
     cd ${arg}
     for i in {a..g}.cpp
     do
@@ -90,7 +98,7 @@ elif [ "$option" = "-m" ]; then # -m: ディレクトリとファイルの生成
     return
   fi
 
-elif [ "$option" = "-g" ]; then # -g: git管理
+elif [ "$option" = "git" ]; then # -g: git管理
   git pull origin master
   find ${ATCODER_DIR}/ -name "a.out" | xargs rm
   cp ${HOME}/command/atcoder ${ATCODER_DIR}/atcoder.sh
@@ -103,15 +111,6 @@ elif [ "$option" = "-g" ]; then # -g: git管理
   fi
   git push origin master
 
-elif [ "$option" = "-h" ]; then # -h: ヘルプ
-  echo ""
-  echo "[option]"
-  echo "-t: arrange tmux-panes"
-  echo "-e: monitor a file given as argument and execute it"
-  echo "-m: create a directory and some cpp-files"
-  echo "-g: execute git commands for commit and push"
-  echo ""
-  return
 else
   echo "Error: requires an option and an argument"
   return
