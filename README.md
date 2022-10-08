@@ -37,8 +37,9 @@
 ### F-LCS
 - LCS(Longest Common Subsequence: 最長共通部分列)
 
-## ABC272
-- https://atcoder.jp/contests/abc272/editorial/4978
+## [ABC272](https://atcoder.jp/contests/abc272/editorial)
+
+### D - Root M Leaper
 - $(1,1)$ から移動できるマスへ有向辺を貼ることで重みなし(重み均一)有向グラフの最短経路問題になる
 - キューとBFS(幅優先探索: breadth-first search)を用いて求められる
 - グラフを作成する際に数学的考察を入れずに愚直に実装すると、ノード数 $N\times N (N\leq 400)$ であるため $\mathcal{O}(N^4) > 10^9$ となり計算量爆発を引き起こす
