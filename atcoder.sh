@@ -10,6 +10,9 @@ arg=""
 while (( $# > 0 ))
 do
   case $1 in
+    --rapid)
+      option="rapid"
+      ;;
     -t | --tmux)
       option="tmux"
       ;;
@@ -28,6 +31,7 @@ do
       google-chrome "https://atcoder.jp/contests/apg4b/tasks/APG4b_o"
       google-chrome "https://atcoder.jp/contests/abc074/glossary?lang=ja"
       google-chrome "https://qiita.com/e869120/items/eb50fdaece12be418faa"
+      google-chrome "https://atcoder.jp/contests/apg4b/tasks/APG4b_w"
       return
       ;;
     -h | --help)
@@ -37,6 +41,8 @@ do
       echo "-e: monitor a file given as argument and execute it"
       echo "-m: create a directory and some cpp-files"
       echo "-g: execute git commands for commit and push"
+      echo "-o: open some web pages related to atcoder"
+      echo "--rapid: 'atcoder --open --mkdir --tmux DIRECTORY'"
       echo ""
       return
       ;;
@@ -52,7 +58,16 @@ do
 done
 
 
-if [ "$option" = "tmux" ]; then # -t: tmux環境構築
+if [ "$option" = "rapid" ]; then # -r: 高速環境構築
+  if [ -z "$arg" ]; then # argが空のときエラー
+    echo "Error: requires an argument for a file name"
+    return
+  fi
+  atcoder --open &
+  atcoder --mkdir ${arg}
+  atcoder --tmux
+
+elif [ "$option" = "tmux" ]; then # -t: tmux環境構築
 
   if [ -n "$arg" ]; then # argが空ではないとき
     cd ${ATCODER_DIR}/${arg}
@@ -64,7 +79,6 @@ if [ "$option" = "tmux" ]; then # -t: tmux環境構築
   tmux resize-pane -D 15
   tmux resize-pane -R 15
   tmux select-pane -t 1
-  tmux select-pane -t 0
 
 elif [ "$option" = "execute" ]; then # -e: コードの監視・自動実行
   if [ -n "$arg" ]; then # argが空ではないとき
@@ -95,8 +109,14 @@ elif [ "$option" = "execute" ]; then # -e: コードの監視・自動実行
 
 elif [ "$option" = "mkdir" ]; then # -m: ディレクトリとファイルの生成
   if [ -n "$arg" ]; then # argが空ではないとき
-    mkdir ${arg} || return
-    cd ${arg}
+    if [ -d "${ATCODER_DIR}/$arg" ]; then
+      echo "Called off mkdir because the directory \"${arg}\" already exists"
+      cd ${ATCODER_DIR}/${arg}
+      return
+    fi
+
+    mkdir ${ATCODER_DIR}/${arg} || return
+    cd ${ATCODER_DIR}/${arg}
     for i in {a..g}.cpp
     do
       cp ${ATCODER_DIR}/template.cpp $i
