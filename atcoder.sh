@@ -22,6 +22,14 @@ do
     -g | --git)
       option="git"
       ;;
+    -o | --open)
+      google-chrome --new-window "https://atcoder.jp/"
+      google-chrome "https://qiita.com/birdwatcher/items/9e6dac869dea023bf53c"
+      google-chrome "https://atcoder.jp/contests/apg4b/tasks/APG4b_o"
+      google-chrome "https://atcoder.jp/contests/abc074/glossary?lang=ja"
+      google-chrome "https://qiita.com/e869120/items/eb50fdaece12be418faa"
+      return
+      ;;
     -h | --help)
       echo ""
       echo "[option]"
@@ -74,6 +82,7 @@ elif [ "$option" = "execute" ]; then # -e: コードの監視・自動実行
         echo "[Executing ...]"
         cpp_last=$cpp_current
         input_last=$input_current
+        #g++ -std=c++17 -Wall -Wextra ${arg} && a.out
         g++ ${arg} && a.out
         echo "[Done]"
       fi
